@@ -9,7 +9,7 @@ trait ToDoRoutes extends SprayJsonSupport {
 
   protected val getToDoRoute: Route = pathEndOrSingleSlash {
     get {
-      complete("Return todo item")
+      complete("Return todo items")
     }
   } ~ path(IntNumber) { id =>
     get {
@@ -17,6 +17,24 @@ trait ToDoRoutes extends SprayJsonSupport {
     }
   }
 
-  val routes:Route = getToDoRoute
+  protected val addItem: Route = path("add") {
+    post {
+      complete(s"added item")
+    }
+  }
+
+  protected val updateToDoItem: Route = path (IntNumber) { id =>
+    put {
+      complete(s"Updated item : $id")
+    }
+  }
+
+  protected val deleteToDoItem: Route = path (IntNumber) { id =>
+    delete {
+     complete(s"Deleted todo item : $id")
+    }
+  }
+
+  val routes:Route = getToDoRoute ~ deleteToDoItem ~ addItem ~ updateToDoItem
 
 }
